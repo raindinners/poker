@@ -9,7 +9,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 python-dotenv = "^1.0.0"
-python-multipart = "^0.0.6"
+python-multipart = "^0.0.9"
 colorlog = "^6.8.2"
 pokerengine = "^1.6.1"
 apscheduler = "^3.10.4"
