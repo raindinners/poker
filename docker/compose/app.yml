@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  poker:
+    image: poker:latest
+    build:
+      context: ${PWD}
+      dockerfile: docker/Dockerfile
+    command: /bin/bash -c \
+      "echo '[+] Running Poker Backend' && \
+      python main.py"
+    volumes:
+      - ${PWD}/app:/app
+    env_file:
+      - ${PWD}/.env
+    depends_on:
+      redis_service:
+        condition: service_healthy
+    ports:
+      - ${PORT}:${PORT}
+    networks:
+      - raindinners
+    restart: always
