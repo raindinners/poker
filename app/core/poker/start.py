@@ -65,6 +65,15 @@ def send_game_started(manager: WebSocketManager, poker: Poker) -> None:
     )
 
 
+async def remove_zero_balance_or_left_players(manager: WebSocketManager, poker: Poker) -> None:
+    players_to_remove = {
+        player.id for player in poker.engine.players if not player.stack or player.is_left
+    }
+    for connection in manager.active_connections:
+        if connection.id in players_to_remove:
+            await manager.close_connection(connection=connection)
+
+
 async def start(manager: WebSocketManager, poker: Poker) -> None:
     if poker.started and not poker.is_winners:
         return logger.debug("Skipping start: wrong state")
@@ -83,6 +92,7 @@ async def start(manager: WebSocketManager, poker: Poker) -> None:
     if time.time() < poker.start_at:
         return logger.debug("Skipping start game: wrong time")
 
+    await remove_zero_balance_or_left_players(manager=manager, poker=poker)
     poker.start()
     send_game_started(manager=manager, poker=poker)
 

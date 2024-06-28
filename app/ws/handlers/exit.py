@@ -5,8 +5,11 @@ from pokerengine.engine import Player as PPlayer
 from redis.asyncio import Redis
 
 from _redis import save
+from orm import BalanceModel
+from orm.core import async_sessionmaker
 from poker import Poker
 from schemas import ApplicationResponse, Event, Player
+from store import change_balance_for_user
 from utils.poker import get_entire_player_ids, get_player_by_id, get_poker
 from ws.requests import ExitRequest
 
@@ -33,6 +36,15 @@ def send_player_left(
     )
 
 
+async def change_balance(user_id: int, stack: int) -> None:
+    async with async_sessionmaker.begin() as session:
+        await change_balance_for_user(
+            session=session,
+            user_id=user_id,
+            values={BalanceModel.balance: BalanceModel.balance + stack},
+        )
+
+
 async def exit_handler(
     connection: Connection,
     manager: WebSocketManager,
@@ -43,6 +55,9 @@ async def exit_handler(
     poker = await get_poker(redis=redis, poker=event.request.poker)
 
     player = get_player_by_id(poker=poker, id_=connection.id)
+    if not poker.started:
+        await change_balance(user_id=int(player.id), stack=player.stack)
+
     remove_player(poker=poker, player=player)
     await save(redis=redis, key=event.request.poker, value=poker)
 
