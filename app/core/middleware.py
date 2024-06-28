@@ -29,7 +29,7 @@ def create_middleware(application: FastAPI) -> None:
             response = JSONResponse(
                 content={
                     "ok": False,
-                    "error": "SERVER_ERROR",
+                    "error": "UNKNOWN_ERROR",
                     "error_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
                 },
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
