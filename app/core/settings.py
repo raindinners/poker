@@ -12,6 +12,13 @@ class BaseSettings(PydanticBaseSettings):
     )
 
 
+class APIProtectSettings(BaseSettings):
+    ALLOWED_IPS: str
+
+
+api_protect_settings = APIProtectSettings()
+
+
 class ServerSettings(BaseSettings):
     DEBUG: bool
     RELOAD: bool
@@ -38,6 +45,31 @@ class CORSSettings(BaseSettings):
 
 
 cors_settings = CORSSettings()
+
+
+class DatabaseSettings(BaseSettings):
+    DATABASE_DRIVER: str
+    DATABASE_USERNAME: str
+    DATABASE_PASSWORD: str
+    DATABASE_HOSTNAME: str
+    DATABASE_PORT: str
+    DATABASE_NAME: str
+
+    @property
+    def url(self) -> str:
+        driver, user, password, host, port, name = (
+            self.DATABASE_DRIVER,
+            self.DATABASE_USERNAME,
+            self.DATABASE_PASSWORD,
+            self.DATABASE_HOSTNAME,
+            self.DATABASE_PORT,
+            self.DATABASE_NAME,
+        )
+
+        return f"{driver}://{user}:{password}@{host}:{port}/{name}"
+
+
+database_settings = DatabaseSettings()
 
 
 class RedisSettings(BaseSettings):

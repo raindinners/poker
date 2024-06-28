@@ -1,3 +1,3 @@
-from . import handlers
+from .websocket_handler import websocket_handler
 
-__all__ = ("handlers",)
+__all__ = ("websocket_handler",)
