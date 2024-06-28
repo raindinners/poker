@@ -51,9 +51,7 @@ def send_join_error(connection: Connection, manager: WebSocketManager, event: Ev
     )
 
 
-async def change_balance(poker: Poker, user_id: int) -> bool:
-    stack = poker.engine.traits.bb_bet * poker.engine.traits.bb_mult
-
+async def change_balance(stack: int, user_id: int) -> bool:
     async with async_sessionmaker.begin() as session:
         balance = await get_balance_by_user_id(session=session, user_id=user_id)
         if balance.balance < stack:
@@ -77,11 +75,12 @@ async def join_handler(
     event = update_event(event=event, class_type=JoinRequest)
     poker = await get_poker(redis=redis, poker=event.request.poker)
 
-    if not await change_balance(poker=poker, user_id=int(connection.id)):
+    stack = poker.engine.traits.bb_bet * poker.engine.traits.bb_mult
+    if not await change_balance(stack=stack, user_id=int(connection.id)):
         send_join_error(connection=connection, manager=manager, event=event)
         return
 
-    add_player(poker=poker, stack=event.request.stack, id_=connection.id)
+    add_player(poker=poker, stack=stack, id_=connection.id)
     await save(redis=redis, key=event.request.poker, value=poker)
 
     send_player_joined(connection=connection, manager=manager, poker=poker, event=event)

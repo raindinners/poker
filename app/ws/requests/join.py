@@ -5,4 +5,3 @@ from schemas import ApplicationSchema
 
 class JoinRequest(ApplicationSchema):
     poker: str
-    stack: int
