@@ -1,25 +1,22 @@
 version: "3.9"
 
 services:
-  poker:
-    image: poker:latest
+  poker_alembic:
+    image: poker_alembic:latest
     build:
       context: ${PWD}
       dockerfile: docker/Dockerfile
     command: /bin/bash -c \
-      "echo '[+] Running Poker Backend' && \
-      python main.py"
+      "echo '[+] Run migrations' && \
+      alembic stamp head --purge && \
+      alembic revision --autogenerate -m "Migrations" && \
+      alembic upgrade head"
     volumes:
-      - ${PWD}/app:/app
+      - ${PWD}/:/app
     env_file:
       - ${PWD}/.env
     depends_on:
       poker_database:
         condition: service_healthy
-      redis_service:
-        condition: service_healthy
-    ports:
-      - ${PORT}:${PORT}
     networks:
       - raindinners
-    restart: always

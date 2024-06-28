@@ -20,7 +20,7 @@ def create_application() -> FastAPI:
     Setup FastAPI application: middleware, exception handlers, jwt, logger.
     """
 
-    docs_url, redoc_url, openapi_url = "/poker/docs", "/poker/redoc", "/poker/openapi.json"
+    docs_url, redoc_url, openapi_url = "/docs", "/redoc", "/openapi.json"
     if not server_settings.DEBUG:
         docs_url, redoc_url, openapi_url = None, None, None
 
@@ -33,7 +33,7 @@ def create_application() -> FastAPI:
         redoc_url=redoc_url,
         openapi_url=openapi_url,
     )
-    application.include_router(api_router, tags=["poker"], prefix="/poker")
+    application.include_router(api_router, tags=["API"])
 
     redis = Redis(host=redis_settings.REDIS_HOSTNAME, port=redis_settings.REDIS_PORT)
     manager = WebSocketManager(redis_settings.REDIS_CHANNEL, redis_settings.url)
@@ -66,7 +66,7 @@ def create_application() -> FastAPI:
 
     def create_routes() -> None:
         @application.post(
-            path="/poker",
+            path="/",
             response_model=ApplicationResponse[bool],
             status_code=status.HTTP_200_OK,
         )
