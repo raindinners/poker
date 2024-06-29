@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import sys
 
 MIN_VERSION = (3, 10)

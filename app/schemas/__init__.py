@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .action import Action
 from .card import Card, Cards, Hand, PokerCards
 from .event import Event

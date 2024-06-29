@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from . import types
 from .model import ORMModel
 from .session import POOL_RECYCLE, async_sessionmaker, engine

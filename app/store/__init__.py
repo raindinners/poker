@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .balance import (
     change_balance_for_user,
     create_balance,

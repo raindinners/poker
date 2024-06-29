@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .balance import (
     BALANCE_DEFAULT,
     BONUS_AMOUNT,

@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .create import CreateRequest
 from .execute_action import ExecuteActionRequest
 from .exit import ExitRequest
