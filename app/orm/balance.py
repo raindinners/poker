@@ -1,18 +1,16 @@
 from __future__ import annotations
 
 import datetime
-from typing import TYPE_CHECKING, Final, Optional
+from typing import TYPE_CHECKING, Optional
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from metadata import BALANCE_DEFAULT, BONUS_INCREMENT_TIME_HOURS
 
 from .core import ORMModel, types
 
 if TYPE_CHECKING:
     from .user import UserModel
-
-BALANCE_DEFAULT: Final[int] = 15000
-BONUS_AMOUNT: Final[int] = 10000
-BONUS_INCREMENT_TIME_HOURS: Final[int] = 4
 
 
 class BalanceModel(ORMModel):

@@ -7,7 +7,8 @@ from sqlalchemy import insert, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
-from orm import BONUS_AMOUNT, BalanceModel
+from metadata import BONUS_AMOUNT
+from orm import BalanceModel
 
 
 async def change_balance_for_user(

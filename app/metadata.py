@@ -15,3 +15,12 @@ START_TIME: Final[int] = 15
 
 AUTO_ACTION_TIME: Final[int] = 10
 """Time to wait until player did a move (in seconds)."""
+
+BALANCE_DEFAULT: Final[int] = 15000
+"""Balance default amount. Warning: for emit changes run migrations."""
+
+BONUS_AMOUNT: Final[int] = 10000
+"""Bonus amount each player gets."""
+
+BONUS_INCREMENT_TIME_HOURS: Final[int] = 4
+"""Time, when next bonus can be got. Warning: for emit changes run migrations."""
